@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/867b574606.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+<body style="background-color: #1d2630;">
+    <header>
+        <div class="container text-center mt-2">
+       <h2  style="background-color: rgb(217, 213, 220);border-radius: 30px;color:whitesmoke" class="bg-dark py-3 "><p class="fa-solid fa-pencil"></p> Task List</h2>
+      </div>
+    </header>
+    <main>  
+        <div class="container mt-5 col-6">
+        <div class="input-group mb-3"  alignment="center">
+            <input style="border-radius: 4px;" type="text"  class="form-control" placeholder="Add Task" aria-label="Recipient's username" aria-describedby="button-addon2">
+           
+              <button id="add_btn" class="btn btn-outline-success ml-2" type="button" id="button-addon2"> <strong>Add Task</strong></button>
+            
+            </div>
+            <ul id="parentlist" class="list-group">
+              <li class="list-group-item d-flex justify-content-between" >
+                <h3 class="flex-grow-1" >Task 1</h3>
+                
+                 <button class="btn btn-danger mx-3" onclick="editChapter(this)">Edit</button>
+                 <button class="btn btn-warning" onclick="removeChapter(this)">Remove </button>
+                 </li>
+              
+            </ul>
+          </div>
+    </main>
+    <script>
+        let addbtn=document.getElementById('add_btn')
+
+        addbtn.addEventListener('click',add_chapter)
+        let parentlist=document.getElementById('parentlist');
+       
+
+        function add_chapter(e){
+          if(parentlist.children[0].className=="emptymsg"){
+            parentlist.children[0].remove()
+
+          }
+         
+            let currentbtn=e.currentTarget;
+            let currentinput=currentbtn.previousElementSibling;
+            let currentChapter=currentinput.value
+
+            let newli=document.createElement('li')
+           //newli.classList.add('list-group-item')
+           newli.className="list-group-item d-flex justify-content-between"
+            newli.innerHTML=` <h3 class="flex-grow-1" >${currentChapter}</h3>
+              <button class="btn btn-danger mx-3" onclick="editChapter(this)" >Edit</button>
+              <button class="btn btn-warning" onclick="removeChapter(this)">Remove</button>`
+
+           
+            parentlist.appendChild(newli)
+
+        }
+
+        function removeChapter(currElement){
+          currElement.parentElement.remove();
+          let parentlist=document.getElementById('parentlist');
+          if(parentlist.children.length<=0){
+            let newmsg=document.createElement("h3")
+            newmsg.classList.add("emptymsg")
+            newmsg.textContent="Nother is here .Please Add some Tasks"
+            newmsg.style.color ='hsl(4, 100%, 67%)';
+            
+            parentlist.appendChild(newmsg)
+          }
+
+        }
+        function editChapter(currElement){
+
+          if(currElement.textContent=="Done"){
+            currElement.textContent="Edit"
+            let curChapterName=currElement.previousElementSibling.value
+            let curHeading=document.createElement('h3')
+            curHeading.className="flex-grow-1"
+            curHeading.textContent=curChapterName
+            currElement.parentElement.replaceChild(curHeading,currElement.previousElementSibling)
+
+
+          }
+          else{
+            currElement.textContent="Done"
+           let  curChapterName=currElement.previousElementSibling.textContent
+          let curinput=document.createElement('input')
+          curinput.type='text'
+          curinput.className="form-control"
+          curinput.placeholder="Chapter name"
+          curinput.value=curChapterName
+
+          currElement.parentElement.replaceChild(curinput,currElement.previousElementSibling)
+          
+
+          }
+         
+        }
+    </script>
+    
+</body>
+</html>
